@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style> body { margin:0; background:#DDE3ED; } ::-webkit-scrollbar { display:none; } </style>
+</helmet>
+<div style="background:#DDE3ED; min-height:100vh; display:flex; justify-content:center; font-family:Inter,sans-serif;">
+<div style="width:100%; max-width:430px; background:#F7F9FC; min-height:100vh; box-shadow:0 0 40px rgba(11,31,75,0.12); display:flex; flex-direction:column; padding-bottom:78px;">
+
+  <dc-import name="NexoraHeader" cart-count="{{ cartCount }}" lang="{{ lang }}" on-toggle-lang="{{ toggleLang }}" on-cart-click="{{ openCart }}" hint-size="100%,66px"></dc-import>
+
+  <!-- DEMO VIDEO + GALLERY -->
+  <div style="position:relative; width:100%; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,#0B1F4B,#0B1F4B 14px,#12285F 14px,#12285F 28px);">
+    <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+      <div style="width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg>
+      </div>
+    </div>
+    <div style="position:absolute; top:10px; left:10px; font-family:'Courier New',monospace; font-size:9px; color:rgba(255,255,255,0.55);">DEMO VIDEO 16:9</div>
+  </div>
+  <div style="display:flex; gap:8px; padding:10px 14px; overflow-x:auto;">
+    <sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="4">
+      <div style="flex:0 0 56px; height:56px; border-radius:8px; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 6px,#F7F9FC 6px,#F7F9FC 12px); border:2px solid {{ th.border }};"></div>
+    </sc-for>
+  </div>
+
+  <!-- BUY BOX -->
+  <div style="padding:14px 16px 18px; background:#FFFFFF;">
+    <h1 style="margin:0 0 6px; font-family:Poppins,sans-serif; font-weight:800; font-size:20px; color:#0B1F4B; line-height:1.25;">{{ product.name }}</h1>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+      <span style="color:#FFB800; font-size:13px; letter-spacing:1px;">{{ product.stars }}</span>
+      <span style="font-family:Inter,sans-serif; font-size:12px; color:#7C89A8;">{{ product.rating }} ({{ product.reviewsLabel }} reviews)</span>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:14px;">
+      <span style="font-family:Poppins,sans-serif; font-weight:800; font-size:26px; color:#0B1F4B;">{{ product.priceLabel }}</span>
+      <span style="font-family:Inter,sans-serif; font-size:15px; color:#A6AEC2; text-decoration:line-through;">{{ product.mrpLabel }}</span>
+      <span style="background:#E6483B; color:#fff; font-family:Inter,sans-serif; font-weight:700; font-size:11px; padding:3px 8px; border-radius:5px;">{{ product.pct }}% OFF</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+      <span style="font-family:Inter,sans-serif; font-size:13px; font-weight:600; color:#3A4560;">Qty</span>
+      <div style="display:flex; align-items:center; gap:10px; background:#F1F4F9; border-radius:20px; padding:6px 12px;">
+        <button onClick="{{ decQty }}" style="width:22px; height:22px; border:none; background:none; font-size:16px; color:#0B1F4B; cursor:pointer;">−</button>
+        <span style="font-family:Inter,sans-serif; font-size:14px; font-weight:700; min-width:16px; text-align:center;">{{ qty }}</span>
+        <button onClick="{{ incQty }}" style="width:22px; height:22px; border:none; background:none; font-size:16px; color:#0B1F4B; cursor:pointer;">+</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:9px; margin-bottom:12px;">
+      <button onClick="{{ addToCart }}" style="width:100%; padding:14px; border:none; border-radius:10px; background:linear-gradient(135deg,#1E6FE0,#38B6FF); color:#fff; font-family:Poppins,sans-serif; font-weight:700; font-size:14px; cursor:pointer;">Buy Now — COD Available</button>
+      <a href="https://wa.me/919999999999" target="_blank" style="width:100%; box-sizing:border-box; padding:13px; border-radius:10px; border:1.5px solid #25D366; color:#128C4A; font-family:Poppins,sans-serif; font-weight:700; font-size:14px; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:7px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"></path></svg>
+        Ask on WhatsApp
+      </a>
+    </div>
+
+    <div style="display:flex; gap:8px;">
+      <input placeholder="Enter pincode" style="flex:1; min-width:0; padding:11px 12px; border-radius:9px; border:1px solid #E3E8F2; background:#F7F9FC; font-family:Inter,sans-serif; font-size:13px;" />
+      <button style="padding:0 14px; border:1px solid #1E6FE0; border-radius:9px; background:#FFFFFF; color:#1E6FE0; font-family:Inter,sans-serif; font-weight:700; font-size:12px; cursor:pointer;">Check</button>
+    </div>
+    <div style="font-family:Inter,sans-serif; font-size:11px; color:#8892A6; margin-top:6px;">Delivery date + COD eligibility ke liye pincode check karo</div>
+  </div>
+
+  <!-- PROBLEM STRIP -->
+  <div style="padding:20px 16px; background:#EAF2FF;">
+    <sc-for list="{{ problemLines }}" as="line" hint-placeholder-count="3">
+      <div style="font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#0B1F4B; margin-bottom:8px; line-height:1.4;">{{ line }}</div>
+    </sc-for>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="padding:22px 16px 6px;">
+    <h2 style="margin:0 0 14px; font-family:Poppins,sans-serif; font-weight:700; font-size:18px; color:#0B1F4B;">How It Works</h2>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="flex:0 0 76px; height:76px; border-radius:10px; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 7px,#F7F9FC 7px,#F7F9FC 14px); display:flex; align-items:center; justify-content:center; font-family:'Courier New',monospace; font-size:8px; color:#7C89A8; text-align:center;">GIF LOOP</div>
+          <div>
+            <div style="font-family:Inter,sans-serif; font-weight:700; font-size:11px; color:#1E6FE0; margin-bottom:2px;">STEP {{ s.n }}</div>
+            <div style="font-family:Inter,sans-serif; font-weight:600; font-size:13px; color:#0B1F4B;">{{ s.text }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- SPECS ACCORDION -->
+  <div style="padding:22px 16px 6px;">
+    <h2 style="margin:0 0 10px; font-family:Poppins,sans-serif; font-weight:700; font-size:18px; color:#0B1F4B;">Specifications</h2>
+    <div style="border:1px solid #EBEFF6; border-radius:12px; overflow:hidden;">
+      <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="5">
+        <div style="border-bottom:1px solid #EBEFF6;">
+          <button onClick="{{ spec.onToggle }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:13px 14px; background:#FFFFFF; border:none; text-align:left; cursor:pointer;">
+            <span style="font-family:Inter,sans-serif; font-weight:600; font-size:13px; color:#0B1F4B;">{{ spec.label }}</span>
+            <span style="font-family:Inter,sans-serif; font-size:15px; color:#7C89A8;">{{ spec.chevron }}</span>
+          </button>
+          <sc-if value="{{ spec.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 14px 13px; font-family:Inter,sans-serif; font-size:12.5px; color:#55607A; line-height:1.5;">{{ spec.value }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- REVIEWS + Q&A -->
+  <div style="padding:22px 0 6px;">
+    <h2 style="margin:0 0 12px; font-family:Poppins,sans-serif; font-weight:700; font-size:18px; color:#0B1F4B; padding:0 16px;">Photo Reviews</h2>
+    <div style="display:flex; gap:12px; overflow-x:auto; padding:0 16px 8px;">
+      <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+        <div style="flex:0 0 190px; background:#FFFFFF; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(11,31,75,0.06); border:1px solid #EBEFF6;">
+          <div style="width:100%; aspect-ratio:4/3; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px); display:flex; align-items:center; justify-content:center; font-family:'Courier New',monospace; font-size:9px; color:#7C89A8;">CUSTOMER PHOTO</div>
+          <div style="padding:10px 12px 12px;">
+            <div style="color:#FFB800; font-size:12px; letter-spacing:1px;">{{ r.stars }}</div>
+            <div style="font-family:Inter,sans-serif; font-size:12px; color:#3A4560; margin:5px 0 6px; line-height:1.4;">{{ r.text }}</div>
+            <div style="font-family:Inter,sans-serif; font-size:11px; font-weight:600; color:#7C89A8;">— {{ r.name }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="padding:14px 16px 4px;">
+      <h3 style="margin:0 0 10px; font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#0B1F4B;">Questions &amp; Answers</h3>
+      <sc-for list="{{ qas }}" as="qa" hint-placeholder-count="2">
+        <div style="margin-bottom:12px;">
+          <div style="font-family:Inter,sans-serif; font-weight:700; font-size:12.5px; color:#0B1F4B;">Q: {{ qa.q }}</div>
+          <div style="font-family:Inter,sans-serif; font-size:12.5px; color:#55607A; margin-top:3px;">A: {{ qa.a }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- CROSS-SELL -->
+  <div style="padding:20px 0 6px;">
+    <h2 style="margin:0 0 12px; font-family:Poppins,sans-serif; font-weight:700; font-size:18px; color:#0B1F4B; padding:0 16px;">Goes Well With</h2>
+    <div style="display:flex; gap:12px; overflow-x:auto; padding:0 16px 8px;">
+      <sc-for list="{{ crossSell }}" as="p" hint-placeholder-count="3">
+        <a href="{{ p.href }}" style="scroll-snap-align:start; flex:0 0 140px; text-decoration:none; background:#FFFFFF; border-radius:12px; overflow:hidden; border:1px solid #EBEFF6;">
+          <div style="width:100%; aspect-ratio:1/1; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px);"></div>
+          <div style="padding:8px 9px 10px;">
+            <div style="font-family:Inter,sans-serif; font-weight:600; font-size:11.5px; color:#0B1F4B; line-height:1.3; height:29px; overflow:hidden;">{{ p.name }}</div>
+            <div style="font-family:Poppins,sans-serif; font-weight:700; font-size:13px; color:#0B1F4B; margin-top:5px;">{{ p.priceLabel }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+    <div style="padding:6px 16px 4px;">
+      <a href="./Nexora Bundles.dc.html" style="text-decoration:none; display:block; border-radius:14px; padding:14px; background:#EAF2FF; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <span style="font-family:Inter,sans-serif; font-weight:600; font-size:12.5px; color:#0B1F4B;">Bundle this with 2 more &amp; save ₹4,798</span>
+        <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:12px; color:#1E6FE0; white-space:nowrap;">View Bundle ▸</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- STICKY BUY BAR -->
+  <div style="position:fixed; left:0; right:0; bottom:66px; z-index:35; display:flex; justify-content:center; pointer-events:none;">
+    <div style="width:100%; max-width:430px; background:#FFFFFF; border-top:1px solid #EBEFF6; box-shadow:0 -4px 14px rgba(11,31,75,0.08); display:flex; align-items:center; gap:10px; padding:10px 14px; pointer-events:auto;">
+      <div>
+        <div style="font-family:Poppins,sans-serif; font-weight:800; font-size:16px; color:#0B1F4B;">{{ product.priceLabel }}</div>
+        <div style="font-family:Inter,sans-serif; font-size:10.5px; color:#A6AEC2; text-decoration:line-through;">{{ product.mrpLabel }}</div>
+      </div>
+      <button onClick="{{ addToCart }}" style="flex:1; padding:12px; border:none; border-radius:10px; background:linear-gradient(135deg,#1E6FE0,#38B6FF); color:#fff; font-family:Poppins,sans-serif; font-weight:700; font-size:13.5px; cursor:pointer;">Buy Now</button>
+    </div>
+  </div>
+
+  <dc-import name="NexoraBottomNav" active="shop" hint-size="100%,66px"></dc-import>
+  <dc-import name="NexoraCartDrawer" open="{{ cartOpen }}" items="{{ cartItems }}" on-close="{{ closeCart }}" on-qty-change="{{ setQty }}" hint-size="0,0"></dc-import>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'en', cartOpen: false, cart: {}, qty: 1, openSpec: 0, PRODUCTS: [] };
+
+  componentDidMount() {
+    import('./products.js').then(m => {
+      const cart = {};
+      try { Object.assign(cart, JSON.parse(localStorage.getItem('nexora_cart') || '{}')); } catch (e) {}
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id') || 'robo-sweeper';
+      this.setState({ PRODUCTS: m.PRODUCTS, cart, productId: id });
+    });
+  }
+
+  saveCart(cart) {
+    this.setState({ cart });
+    try { localStorage.setItem('nexora_cart', JSON.stringify(cart)); } catch (e) {}
+  }
+
+  setQty(id, qty) {
+    const cart = { ...this.state.cart };
+    if (qty <= 0) delete cart[id]; else cart[id] = qty;
+    this.saveCart(cart);
+  }
+
+  renderVals() {
+    const inr = n => '₹' + (n || 0).toLocaleString('en-IN');
+    const pct = (price, mrp) => Math.round((1 - price / mrp) * 100);
+    const P = this.state.PRODUCTS;
+    const byId = id => P.find(p => p.id === id);
+    const current = byId(this.state.productId) || { name: 'Robotic Floor Sweeper', price: 1999, mrp: 4999, rating: 4.4, reviews: 2318, id: 'robo-sweeper' };
+
+    const product = {
+      name: current.name,
+      priceLabel: inr(current.price),
+      mrpLabel: inr(current.mrp),
+      pct: pct(current.price, current.mrp),
+      rating: current.rating,
+      reviewsLabel: current.reviews.toLocaleString('en-IN'),
+      stars: '★★★★☆',
+    };
+
+    const cartItems = Object.entries(this.state.cart).map(([id, qty]) => {
+      const p = byId(id); return p ? { id, name: p.name, price: p.price, qty } : null;
+    }).filter(Boolean);
+    const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+    const specsData = [
+      { label: 'Suction Power', value: '2500Pa strong suction, works on tiles, wood &amp; low-pile carpet.' },
+      { label: 'Battery Life', value: 'Up to 100 minutes on a single charge, USB-C charging.' },
+      { label: 'Box Contents', value: '1x Robotic Sweeper, 1x Charging Dock, 2x Side Brush, User Manual.' },
+      { label: 'Warranty', value: '1-year manufacturer warranty on motor and battery.' },
+      { label: 'Dimensions & Weight', value: '28cm diameter, 7.5cm height, 1.1kg.' },
+    ];
+    const specs = specsData.map((s, i) => ({
+      ...s, isOpen: this.state.openSpec === i, chevron: this.state.openSpec === i ? '−' : '+',
+      onToggle: () => this.setState({ openSpec: this.state.openSpec === i ? -1 : i }),
+    }));
+
+    const crossSellIds = ['kitchen-mop', 'veg-chopper', 'lint-remover'].filter(id => id !== current.id);
+    const crossSell = crossSellIds.map(id => byId(id)).filter(Boolean).map(p => ({
+      name: p.name, priceLabel: inr(p.price), href: `./Nexora Product.dc.html?id=${p.id}`,
+    }));
+
+    return {
+      lang: this.state.lang,
+      toggleLang: () => this.setState({ lang: this.state.lang === 'hi' ? 'en' : 'hi' }),
+      cartCount,
+      cartOpen: this.state.cartOpen,
+      cartItems,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      setQty: (id, qty) => this.setQty(id, qty),
+      product,
+      qty: this.state.qty,
+      incQty: () => this.setState({ qty: this.state.qty + 1 }),
+      decQty: () => this.setState({ qty: Math.max(1, this.state.qty - 1) }),
+      addToCart: () => {
+        const cart = { ...this.state.cart };
+        cart[current.id] = (cart[current.id] || 0) + this.state.qty;
+        this.saveCart(cart);
+        this.setState({ cartOpen: true });
+      },
+      thumbs: [0, 1, 2, 3].map(i => ({ border: i === 0 ? '#1E6FE0' : 'transparent' })),
+      problemLines: ['Roz jhaadu-pocha? Ab nahi.', 'Guests aane wale hain, floor abhi bhi gandha hai?', 'Weekend cleaning mein poora din nikal jaata hai.'],
+      steps: [
+        { n: 1, text: 'Charge fully &amp; place on any floor' },
+        { n: 2, text: 'Press power — auto-navigates every corner' },
+        { n: 3, text: 'Empty the dustbin, done in minutes' },
+      ],
+      specs,
+      reviews: [
+        { stars: '★★★★★', text: '"Wah, itne mein?! Ekdum paisa vasool."', name: 'Priya, Pune' },
+        { stars: '★★★★★', text: '"Roz ka jhaadu-pocha ab 10 min ka kaam."', name: 'Sameer, Nagpur' },
+        { stars: '★★★★☆', text: '"Battery life accha hai, sound bhi kam hai."', name: 'Neha, Surat' },
+      ],
+      qas: [
+        { q: 'Kya ye carpet pe bhi chalta hai?', a: 'Haan, low-pile carpet aur rugs pe achhe se kaam karta hai.' },
+        { q: 'COD available hai kya mere pincode pe?', a: 'Zyada tar pincodes pe COD available hai — checkout pe pincode daalke confirm karo.' },
+      ],
+      crossSell,
+    };
+  }
+}
+</script>
+</body>
+</html>

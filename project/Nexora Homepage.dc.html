@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#DDE3ED; }
+    ::-webkit-scrollbar { display:none; }
+  </style>
+</helmet>
+<div style="background:#DDE3ED; min-height:100vh; display:flex; justify-content:center; font-family:Inter,sans-serif;">
+<div style="width:100%; max-width:430px; background:#F7F9FC; min-height:100vh; box-shadow:0 0 40px rgba(11,31,75,0.12); display:flex; flex-direction:column;">
+
+  <dc-import name="NexoraHeader" cart-count="{{ cartCount }}" lang="{{ lang }}" on-toggle-lang="{{ toggleLang }}" on-cart-click="{{ openCart }}" hint-size="100%,66px"></dc-import>
+
+  <div style="flex:1;">
+
+    <!-- HERO -->
+    <div style="position:relative; width:100%; aspect-ratio:4/5; background:repeating-linear-gradient(135deg,#0B1F4B,#0B1F4B 14px,#12285F 14px,#12285F 28px); overflow:hidden;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+        <div style="width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,0.16); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(2px);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M8 5v14l11-7z"></path></svg>
+        </div>
+      </div>
+      <div style="position:absolute; top:14px; left:14px; font-family:'Courier New',monospace; font-size:10px; letter-spacing:0.06em; color:rgba(255,255,255,0.55);">PRODUCT DEMO VIDEO — 4:5</div>
+      <div style="position:absolute; left:0; right:0; bottom:0; padding:20px 18px 22px; background:linear-gradient(0deg,rgba(11,31,75,0.95),rgba(11,31,75,0.55) 70%,rgba(11,31,75,0));">
+        <div style="display:flex; margin-bottom:10px;">
+          <span style="background:rgba(0,0,0,0.4); color:#fff; font-family:Inter,sans-serif; font-size:11px; padding:4px 10px; border-radius:4px;">"iske baad jhaadu haath mein nahi liya"</span>
+        </div>
+        <h1 style="margin:0 0 12px; font-family:Poppins,sans-serif; font-weight:800; font-size:27px; line-height:1.15; color:#FFFFFF; letter-spacing:-0.01em;">Gadgets you didn't know existed.</h1>
+        <a href="#bestsellers" style="display:inline-flex; align-items:center; gap:6px; padding:12px 20px; border-radius:10px; background:linear-gradient(135deg,#1E6FE0,#38B6FF); color:#fff; font-family:Poppins,sans-serif; font-weight:700; font-size:14px; text-decoration:none;">See It Work · Dekho Kaise ▸</a>
+      </div>
+    </div>
+
+    <!-- TRUST STRIP -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:16px 12px; background:#FFFFFF;">
+      <sc-for list="{{ trustItems }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;">
+          <div style="width:34px; height:34px; border-radius:50%; background:#EAF2FF; display:flex; align-items:center; justify-content:center;" dangerouslySetInnerHTML="{{ t.iconHtml }}"></div>
+          <span style="font-family:Inter,sans-serif; font-size:10px; font-weight:600; color:#3A4560; line-height:1.25;">{{ t.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- BESTSELLERS -->
+    <div id="bestsellers" style="padding:22px 0 6px;">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; padding:0 14px 12px;">
+        <h2 style="margin:0; font-family:Poppins,sans-serif; font-weight:700; font-size:19px; color:#0B1F4B;">Bestsellers</h2>
+        <a href="./Nexora Collection.dc.html" style="font-family:Inter,sans-serif; font-size:12px; font-weight:600; color:#1E6FE0; text-decoration:none;">See all ▸</a>
+      </div>
+      <div style="display:flex; gap:12px; overflow-x:auto; padding:0 14px 8px; scroll-snap-type:x mandatory;">
+        <sc-for list="{{ bestsellers }}" as="p" hint-placeholder-count="4">
+          <a href="{{ p.href }}" style="scroll-snap-align:start; flex:0 0 152px; text-decoration:none; background:#FFFFFF; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(11,31,75,0.06); display:flex; flex-direction:column;">
+            <div style="position:relative; width:100%; aspect-ratio:1/1; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px); display:flex; align-items:center; justify-content:center;">
+              <div style="width:28px; height:28px; border-radius:50%; background:rgba(11,31,75,0.55); display:flex; align-items:center; justify-content:center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg>
+              </div>
+              <span style="position:absolute; top:6px; left:6px; background:#E6483B; color:#fff; font-family:Inter,sans-serif; font-weight:700; font-size:9px; padding:2px 6px; border-radius:4px;">{{ p.pct }}% OFF</span>
+            </div>
+            <div style="padding:9px 10px 12px;">
+              <div style="font-family:Inter,sans-serif; font-weight:600; font-size:12px; color:#0B1F4B; line-height:1.3; height:31px; overflow:hidden;">{{ p.name }}</div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-top:6px;">
+                <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:14px; color:#0B1F4B;">{{ p.priceLabel }}</span>
+                <span style="font-family:Inter,sans-serif; font-size:11px; color:#A6AEC2; text-decoration:line-through;">{{ p.mrpLabel }}</span>
+              </div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- SHOP BY PROBLEM -->
+    <div style="padding:22px 14px 6px;">
+      <h2 style="margin:0 0 12px; font-family:Poppins,sans-serif; font-weight:700; font-size:19px; color:#0B1F4B;">Shop by Problem</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <sc-for list="{{ collections }}" as="c" hint-placeholder-count="4">
+          <a href="{{ c.href }}" style="text-decoration:none; border-radius:14px; overflow:hidden; background:#FFFFFF; box-shadow:0 2px 10px rgba(11,31,75,0.06); display:flex; flex-direction:column;">
+            <div style="position:relative; width:100%; aspect-ratio:4/3; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px); display:flex; align-items:center; justify-content:center; font-size:26px;">{{ c.icon }}</div>
+            <div style="padding:9px 10px 11px;">
+              <div style="font-family:Poppins,sans-serif; font-weight:700; font-size:13px; color:#0B1F4B;">{{ c.name }}</div>
+              <div style="font-family:Inter,sans-serif; font-size:11px; color:#7C89A8; margin-top:2px;">{{ c.tagline }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- UGC VIDEO WALL -->
+    <div style="padding:22px 14px 6px;">
+      <h2 style="margin:0 0 4px; font-family:Poppins,sans-serif; font-weight:700; font-size:19px; color:#0B1F4B;">Real People, Real Reactions</h2>
+      <div style="font-family:Inter,sans-serif; font-size:12px; color:#7C89A8; margin-bottom:12px;">Nexora fam on Reels &amp; Insta</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px;">
+        <sc-for list="{{ ugcTiles }}" as="u" hint-placeholder-count="6">
+          <div style="position:relative; aspect-ratio:9/16; border-radius:10px; overflow:hidden; background:repeating-linear-gradient(135deg,#0B1F4B,#0B1F4B 8px,#16326E 8px,#16326E 16px); display:flex; align-items:center; justify-content:center;">
+            <div style="width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.22); display:flex; align-items:center; justify-content:center;">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg>
+            </div>
+            <span style="position:absolute; bottom:4px; left:5px; color:#fff; font-family:Inter,sans-serif; font-size:9px; font-weight:600;">{{ u.views }} views</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- BUNDLE BANNER -->
+    <div style="padding:22px 14px 6px;">
+      <a href="./Nexora Bundles.dc.html" style="text-decoration:none; display:block; border-radius:16px; overflow:hidden; background:linear-gradient(135deg,#0B1F4B,#183E8C); position:relative;">
+        <div style="position:absolute; top:12px; right:12px; background:#FFC531; color:#0B1F4B; font-family:Inter,sans-serif; font-weight:800; font-size:11px; padding:4px 9px; border-radius:6px;">SAVE ₹4,798</div>
+        <div style="display:flex; align-items:center; gap:12px; padding:18px;">
+          <div style="width:78px; height:78px; border-radius:12px; flex-shrink:0; background:repeating-linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.14) 7px,rgba(255,255,255,0.05) 7px,rgba(255,255,255,0.05) 14px);"></div>
+          <div>
+            <div style="font-family:Inter,sans-serif; font-size:11px; font-weight:600; color:#8FC1FF; text-transform:uppercase; letter-spacing:0.04em;">Bundle &amp; Save</div>
+            <div style="font-family:Poppins,sans-serif; font-weight:800; font-size:16px; color:#fff; margin:3px 0 6px;">Chore-Free Home Kit</div>
+            <div style="font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#38B6FF;">₹3,499 <span style="color:rgba(255,255,255,0.5); font-weight:500; font-size:12px; text-decoration:line-through;">₹8,297</span></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- PHOTO REVIEWS -->
+    <div style="padding:22px 0 6px;">
+      <h2 style="margin:0 0 12px; font-family:Poppins,sans-serif; font-weight:700; font-size:19px; color:#0B1F4B; padding:0 14px;">Photo Reviews</h2>
+      <div style="display:flex; gap:12px; overflow-x:auto; padding:0 14px 8px;">
+        <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+          <div style="flex:0 0 200px; background:#FFFFFF; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(11,31,75,0.06);">
+            <div style="width:100%; aspect-ratio:4/3; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px); display:flex; align-items:center; justify-content:center; font-family:'Courier New',monospace; font-size:9px; color:#7C89A8;">CUSTOMER PHOTO</div>
+            <div style="padding:10px 12px 12px;">
+              <div style="color:#FFB800; font-size:12px; letter-spacing:1px;">{{ r.stars }}</div>
+              <div style="font-family:Inter,sans-serif; font-size:12px; color:#3A4560; margin:5px 0 6px; line-height:1.4;">{{ r.text }}</div>
+              <div style="font-family:Inter,sans-serif; font-size:11px; font-weight:600; color:#7C89A8;">— {{ r.name }}, {{ r.city }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#0B1F4B; padding:26px 16px 20px; color:#C6D2EE;">
+    <div style="margin-bottom:18px;">
+      <div style="font-family:Inter,sans-serif; font-size:12px; font-weight:600; color:#fff; margin-bottom:8px;">Check delivery at your pincode</div>
+      <div style="display:flex; gap:8px;">
+        <input placeholder="Enter pincode" style="flex:1; min-width:0; padding:11px 12px; border-radius:9px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.06); color:#fff; font-family:Inter,sans-serif; font-size:13px;" />
+        <button style="padding:0 16px; border:none; border-radius:9px; background:linear-gradient(135deg,#1E6FE0,#38B6FF); color:#fff; font-family:Poppins,sans-serif; font-weight:700; font-size:13px; cursor:pointer;">Check</button>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; font-family:Inter,sans-serif; font-size:13px; margin-bottom:18px;">
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">Shipping Policy</a>
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">Replacement Policy</a>
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">About Nexora</a>
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">Contact Us</a>
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">Terms of Service</a>
+      <a href="#" style="color:#C6D2EE; text-decoration:none;">Privacy Policy</a>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; padding-top:16px; border-top:1px solid rgba(255,255,255,0.12);">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:26px; height:26px; border-radius:50%; overflow:hidden; background-image:url('./assets/nexora-logo.png'); background-size:420% 420%; background-position:50% 14%;"></div>
+        <span style="font-family:Inter,sans-serif; font-size:11px; color:#8FA1CC;">GST-Registered Indian Brand</span>
+      </div>
+      <button onClick="{{ toggleLang }}" style="background:rgba(255,255,255,0.08); border:none; color:#fff; font-family:Inter,sans-serif; font-size:11px; font-weight:600; padding:6px 10px; border-radius:16px; cursor:pointer;">{{ footerLangLabel }}</button>
+    </div>
+  </div>
+
+  <dc-import name="NexoraBottomNav" active="home" hint-size="100%,66px"></dc-import>
+  <dc-import name="NexoraCartDrawer" open="{{ cartOpen }}" items="{{ cartItems }}" on-close="{{ closeCart }}" on-qty-change="{{ setQty }}" hint-size="0,0"></dc-import>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'en', cartOpen: false, cart: {}, PRODUCTS: [], COLLECTIONS: [] };
+
+  componentDidMount() {
+    import('./products.js').then(m => {
+      const cart = {};
+      try { Object.assign(cart, JSON.parse(localStorage.getItem('nexora_cart') || '{}')); } catch (e) {}
+      this.setState({ PRODUCTS: m.PRODUCTS, COLLECTIONS: m.COLLECTIONS, inr: m.inr, discountPct: m.discountPct, cart });
+    });
+  }
+
+  saveCart(cart) {
+    this.setState({ cart });
+    try { localStorage.setItem('nexora_cart', JSON.stringify(cart)); } catch (e) {}
+  }
+
+  setQty(id, qty) {
+    const cart = { ...this.state.cart };
+    if (qty <= 0) delete cart[id]; else cart[id] = qty;
+    this.saveCart(cart);
+  }
+
+  renderVals() {
+    const inr = n => '₹' + (n || 0).toLocaleString('en-IN');
+    const pct = (price, mrp) => Math.round((1 - price / mrp) * 100);
+    const P = this.state.PRODUCTS;
+    const byId = id => P.find(p => p.id === id);
+    const bestsellerIds = ['robo-sweeper', 'massage-gun', 'tyre-inflator', 'aroma-diffuser'];
+    const bestsellers = bestsellerIds.map(id => byId(id)).filter(Boolean).map(p => ({
+      name: p.name, priceLabel: inr(p.price), mrpLabel: inr(p.mrp), pct: pct(p.price, p.mrp),
+      href: `./Nexora Product.dc.html?id=${p.id}`,
+    }));
+    const collections = this.state.COLLECTIONS.map(c => ({ ...c, href: `./Nexora Collection.dc.html?c=${c.id}` }));
+    const cartItems = Object.entries(this.state.cart).map(([id, qty]) => {
+      const p = byId(id); return p ? { id, name: p.name, price: p.price, qty } : null;
+    }).filter(Boolean);
+    const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+    const trustIcon = (svg) => ({ __html: svg });
+    const trustItems = [
+      { label: 'GST-Registered Indian Brand', iconHtml: trustIcon('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg>') },
+      { label: 'Cash on Delivery', iconHtml: trustIcon('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="3"></circle></svg>') },
+      { label: 'Fast Delivery', iconHtml: trustIcon('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2"><rect x="1" y="7" width="14" height="10" rx="1"></rect><path d="M15 10h4l3 3v4h-7z"></path><circle cx="6" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg>') },
+      { label: 'Easy 7-Day Replacement', iconHtml: trustIcon('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2"><path d="M1 4v6h6"></path><path d="M3.5 15a9 9 0 1 0 2-9.5L1 10"></path></svg>') },
+    ];
+
+    const ugcTiles = [3.2, 8.9, 1.4, 5.6, 12.1, 2.8].map(v => ({ views: v + 'k' }));
+
+    const reviews = [
+      { stars: '★★★★★', text: '"Wah, itne mein?! Sweeper toh ekdum solid hai."', name: 'Priya', city: 'Pune' },
+      { stars: '★★★★★', text: '"Massage gun ne gym ki thakaan bhula di."', name: 'Rohit', city: 'Indore' },
+      { stars: '★★★★☆', text: '"COD tha isliye trust ho gaya. Product bhi mast."', name: 'Ayesha', city: 'Lucknow' },
+    ];
+
+    return {
+      lang: this.state.lang,
+      footerLangLabel: this.state.lang === 'hi' ? 'Switch to English' : 'हिंदी में देखें',
+      toggleLang: () => this.setState({ lang: this.state.lang === 'hi' ? 'en' : 'hi' }),
+      cartCount,
+      cartOpen: this.state.cartOpen,
+      cartItems,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      setQty: (id, qty) => this.setQty(id, qty),
+      trustItems,
+      bestsellers,
+      collections,
+      ugcTiles,
+      reviews,
+    };
+  }
+}
+</script>
+</body>
+</html>

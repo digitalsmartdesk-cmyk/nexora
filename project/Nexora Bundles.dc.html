@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style> body { margin:0; background:#DDE3ED; } ::-webkit-scrollbar { display:none; } </style>
+</helmet>
+<div style="background:#DDE3ED; min-height:100vh; display:flex; justify-content:center; font-family:Inter,sans-serif;">
+<div style="width:100%; max-width:430px; background:#F7F9FC; min-height:100vh; box-shadow:0 0 40px rgba(11,31,75,0.12); display:flex; flex-direction:column;">
+
+  <dc-import name="NexoraHeader" cart-count="{{ cartCount }}" lang="{{ lang }}" on-toggle-lang="{{ toggleLang }}" on-cart-click="{{ openCart }}" hint-size="100%,66px"></dc-import>
+
+  <div style="padding:20px 16px 18px; background:linear-gradient(135deg,#0B1F4B,#183E8C);">
+    <h1 style="margin:0 0 6px; font-family:Poppins,sans-serif; font-weight:800; font-size:22px; color:#fff;">Bundle &amp; Save</h1>
+    <div style="font-family:Inter,sans-serif; font-size:13px; color:#B9C8EA;">Do-teen kaam ke gadgets, ek saath sasta.</div>
+  </div>
+
+  <div style="flex:1; padding:16px 14px 24px; display:flex; flex-direction:column; gap:14px;">
+    <sc-for list="{{ bundles }}" as="b" hint-placeholder-count="4">
+      <div style="background:#FFFFFF; border-radius:16px; overflow:hidden; box-shadow:0 2px 12px rgba(11,31,75,0.07);">
+        <div style="position:relative; display:flex; gap:6px; padding:14px 14px 0;">
+          <sc-for list="{{ b.thumbs }}" as="th" hint-placeholder-count="3">
+            <div style="flex:1; aspect-ratio:1/1; border-radius:10px; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 7px,#F7F9FC 7px,#F7F9FC 14px);"></div>
+          </sc-for>
+          <span style="position:absolute; top:10px; right:20px; background:#FFC531; color:#0B1F4B; font-family:Inter,sans-serif; font-weight:800; font-size:10.5px; padding:3px 8px; border-radius:6px;">SAVE {{ b.saveLabel }}</span>
+        </div>
+        <div style="padding:12px 14px 16px;">
+          <div style="font-family:Poppins,sans-serif; font-weight:800; font-size:16px; color:#0B1F4B;">{{ b.name }}</div>
+          <div style="font-family:Inter,sans-serif; font-size:12px; color:#7C89A8; margin:3px 0 8px;">{{ b.tagline }}</div>
+          <div style="font-family:Inter,sans-serif; font-size:11.5px; color:#3A4560; margin-bottom:10px;">Includes: {{ b.includesLabel }}</div>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <span style="font-family:Poppins,sans-serif; font-weight:800; font-size:18px; color:#0B1F4B;">{{ b.priceLabel }}</span>
+              <span style="font-family:Inter,sans-serif; font-size:12.5px; color:#A6AEC2; text-decoration:line-through;">{{ b.mrpLabel }}</span>
+            </div>
+            <button onClick="{{ b.onAdd }}" style="padding:10px 16px; border:none; border-radius:9px; background:linear-gradient(135deg,#1E6FE0,#38B6FF); color:#fff; font-family:Poppins,sans-serif; font-weight:700; font-size:12.5px; cursor:pointer;">Add Kit</button>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <dc-import name="NexoraBottomNav" active="bundle" hint-size="100%,66px"></dc-import>
+  <dc-import name="NexoraCartDrawer" open="{{ cartOpen }}" items="{{ cartItems }}" on-close="{{ closeCart }}" on-qty-change="{{ setQty }}" hint-size="0,0"></dc-import>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'en', cartOpen: false, cart: {}, PRODUCTS: [], BUNDLES: [] };
+
+  componentDidMount() {
+    import('./products.js').then(m => {
+      const cart = {};
+      try { Object.assign(cart, JSON.parse(localStorage.getItem('nexora_cart') || '{}')); } catch (e) {}
+      this.setState({ PRODUCTS: m.PRODUCTS, BUNDLES: m.BUNDLES, cart });
+    });
+  }
+
+  saveCart(cart) {
+    this.setState({ cart });
+    try { localStorage.setItem('nexora_cart', JSON.stringify(cart)); } catch (e) {}
+  }
+
+  setQty(id, qty) {
+    const cart = { ...this.state.cart };
+    if (qty <= 0) delete cart[id]; else cart[id] = qty;
+    this.saveCart(cart);
+  }
+
+  addBundle(bundle) {
+    const cart = { ...this.state.cart };
+    bundle.items.forEach(id => { cart[id] = (cart[id] || 0) + 1; });
+    this.saveCart(cart);
+    this.setState({ cartOpen: true });
+  }
+
+  renderVals() {
+    const inr = n => '₹' + (n || 0).toLocaleString('en-IN');
+    const byId = id => this.state.PRODUCTS.find(p => p.id === id);
+
+    const bundles = this.state.BUNDLES.map(b => {
+      const items = b.items.map(id => byId(id)).filter(Boolean);
+      return {
+        name: b.name, tagline: b.tagline,
+        priceLabel: inr(b.price), mrpLabel: inr(b.mrp),
+        saveLabel: inr(b.mrp - b.price),
+        includesLabel: items.map(i => i.name).join(', '),
+        thumbs: items,
+        onAdd: () => this.addBundle(b),
+      };
+    });
+
+    const cartItems = Object.entries(this.state.cart).map(([id, qty]) => {
+      const p = byId(id); return p ? { id, name: p.name, price: p.price, qty } : null;
+    }).filter(Boolean);
+    const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+    return {
+      lang: this.state.lang,
+      toggleLang: () => this.setState({ lang: this.state.lang === 'hi' ? 'en' : 'hi' }),
+      cartCount,
+      cartOpen: this.state.cartOpen,
+      cartItems,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      setQty: (id, qty) => this.setQty(id, qty),
+      bundles,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style> body { margin:0; background:#DDE3ED; } ::-webkit-scrollbar { display:none; } </style>
+</helmet>
+<div style="background:#DDE3ED; min-height:100vh; display:flex; justify-content:center; font-family:Inter,sans-serif;">
+<div style="width:100%; max-width:430px; background:#F7F9FC; min-height:100vh; box-shadow:0 0 40px rgba(11,31,75,0.12); display:flex; flex-direction:column;">
+
+  <dc-import name="NexoraHeader" cart-count="{{ cartCount }}" lang="{{ lang }}" on-toggle-lang="{{ toggleLang }}" on-cart-click="{{ openCart }}" hint-size="100%,66px"></dc-import>
+
+  <div style="padding:18px 16px 6px; background:#0B1F4B;">
+    <div style="font-family:Inter,sans-serif; font-size:11px; font-weight:600; color:#8FC1FF; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Collection</div>
+    <h1 style="margin:0 0 4px; font-family:Poppins,sans-serif; font-weight:800; font-size:23px; color:#fff;">{{ collection.name }}</h1>
+    <div style="font-family:Inter,sans-serif; font-size:13px; color:#B9C8EA; padding-bottom:16px;">{{ collection.tagline }}</div>
+  </div>
+
+  <!-- collection tab switcher -->
+  <div style="display:flex; gap:8px; overflow-x:auto; padding:12px 14px; background:#FFFFFF; border-bottom:1px solid #EBEFF6;">
+    <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+      <a href="{{ tab.href }}" style="flex:0 0 auto; text-decoration:none; padding:8px 13px; border-radius:20px; font-family:Inter,sans-serif; font-weight:600; font-size:12.5px; background:{{ tab.bg }}; color:{{ tab.color }};">{{ tab.name }}</a>
+    </sc-for>
+  </div>
+
+  <div style="flex:1; padding:16px 14px 24px;">
+    <div style="font-family:Inter,sans-serif; font-size:12.5px; color:#7C89A8; margin-bottom:12px;">{{ countLabel }}</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+        <a href="{{ p.href }}" style="text-decoration:none; background:#FFFFFF; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(11,31,75,0.06); display:flex; flex-direction:column;">
+          <div style="position:relative; width:100%; aspect-ratio:1/1; background:repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 8px,#F7F9FC 8px,#F7F9FC 16px); display:flex; align-items:center; justify-content:center;">
+            <span style="position:absolute; top:6px; left:6px; background:#E6483B; color:#fff; font-family:Inter,sans-serif; font-weight:700; font-size:9px; padding:2px 6px; border-radius:4px;">{{ p.pct }}% OFF</span>
+          </div>
+          <div style="padding:9px 10px 12px;">
+            <div style="font-family:Inter,sans-serif; font-weight:600; font-size:12px; color:#0B1F4B; line-height:1.3; height:31px; overflow:hidden;">{{ p.name }}</div>
+            <div style="color:#FFB800; font-size:10px; margin-top:4px;">{{ p.stars }} <span style="color:#A6AEC2;">({{ p.reviews }})</span></div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin-top:5px;">
+              <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:13.5px; color:#0B1F4B;">{{ p.priceLabel }}</span>
+              <span style="font-family:Inter,sans-serif; font-size:10.5px; color:#A6AEC2; text-decoration:line-through;">{{ p.mrpLabel }}</span>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <dc-import name="NexoraBottomNav" active="shop" hint-size="100%,66px"></dc-import>
+  <dc-import name="NexoraCartDrawer" open="{{ cartOpen }}" items="{{ cartItems }}" on-close="{{ closeCart }}" on-qty-change="{{ setQty }}" hint-size="0,0"></dc-import>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'en', cartOpen: false, cart: {}, PRODUCTS: [], COLLECTIONS: [] };
+
+  componentDidMount() {
+    import('./products.js').then(m => {
+      const cart = {};
+      try { Object.assign(cart, JSON.parse(localStorage.getItem('nexora_cart') || '{}')); } catch (e) {}
+      const params = new URLSearchParams(window.location.search);
+      const cId = params.get('c') || 'chore-killers';
+      this.setState({ PRODUCTS: m.PRODUCTS, COLLECTIONS: m.COLLECTIONS, cart, collectionId: cId });
+    });
+  }
+
+  saveCart(cart) {
+    this.setState({ cart });
+    try { localStorage.setItem('nexora_cart', JSON.stringify(cart)); } catch (e) {}
+  }
+
+  setQty(id, qty) {
+    const cart = { ...this.state.cart };
+    if (qty <= 0) delete cart[id]; else cart[id] = qty;
+    this.saveCart(cart);
+  }
+
+  renderVals() {
+    const inr = n => '₹' + (n || 0).toLocaleString('en-IN');
+    const pct = (price, mrp) => Math.round((1 - price / mrp) * 100);
+    const cId = this.state.collectionId || 'chore-killers';
+    const collection = this.state.COLLECTIONS.find(c => c.id === cId) || { name: 'Chore Killers', tagline: 'Roz ka kaam, ab asaan' };
+
+    const products = this.state.PRODUCTS.filter(p => p.collection === cId).map(p => ({
+      name: p.name, priceLabel: inr(p.price), mrpLabel: inr(p.mrp), pct: pct(p.price, p.mrp),
+      stars: '★★★★☆', reviews: p.reviews.toLocaleString('en-IN'),
+      href: `./Nexora Product.dc.html?id=${p.id}`,
+    }));
+
+    const tabs = this.state.COLLECTIONS.map(c => ({
+      name: c.name, href: `./Nexora Collection.dc.html?c=${c.id}`,
+      bg: c.id === cId ? '#0B1F4B' : '#F1F4F9',
+      color: c.id === cId ? '#fff' : '#3A4560',
+    }));
+
+    const cartItems = Object.entries(this.state.cart).map(([id, qty]) => {
+      const p = this.state.PRODUCTS.find(pp => pp.id === id); return p ? { id, name: p.name, price: p.price, qty } : null;
+    }).filter(Boolean);
+    const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+    return {
+      lang: this.state.lang,
+      toggleLang: () => this.setState({ lang: this.state.lang === 'hi' ? 'en' : 'hi' }),
+      cartCount,
+      cartOpen: this.state.cartOpen,
+      cartItems,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      setQty: (id, qty) => this.setQty(id, qty),
+      collection,
+      tabs,
+      products,
+      countLabel: `${products.length} products`,
+    };
+  }
+}
+</script>
+</body>
+</html>
