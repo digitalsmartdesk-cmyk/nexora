@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Shell from '../components/Shell.jsx';
 import Placeholder from '../components/Placeholder.jsx';
 import { useStore } from '../context/StoreContext.jsx';
+import useIsDesktop from '../hooks/useIsDesktop.js';
 import { PRODUCTS, discountPct, inr, getProduct } from '../data/products.js';
 
 const SPECS_DATA = [
@@ -41,6 +42,7 @@ const CROSS_SELL_IDS = ['kitchen-mop', 'veg-chopper', 'lint-remover'];
 export default function Product() {
   const { id } = useParams();
   const { addToCart } = useStore();
+  const isDesktop = useIsDesktop();
   const [qty, setQty] = useState(1);
   const [openSpec, setOpenSpec] = useState(0);
 
@@ -53,119 +55,125 @@ export default function Product() {
   const handleAdd = () => addToCart(current.id, qty);
 
   return (
-    <Shell active="shop" extraPadding={78}>
-      {/* DEMO VIDEO + GALLERY */}
-      <Placeholder style={{ width: '100%', aspectRatio: '16/9' }} label="DEMO VIDEO 16:9" dark>
-        <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
-            <path d="M8 5v14l11-7z"></path>
-          </svg>
-        </div>
-      </Placeholder>
-      <div style={{ display: 'flex', gap: 8, padding: '10px 14px', overflowX: 'auto' }}>
-        {[0, 1, 2, 3].map((i) => (
-          <div
-            key={i}
-            style={{
-              flex: '0 0 56px',
-              height: 56,
-              borderRadius: 8,
-              background: 'repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 6px,#F7F9FC 6px,#F7F9FC 12px)',
-              border: `2px solid ${i === 0 ? '#1E6FE0' : 'transparent'}`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* BUY BOX */}
-      <div style={{ padding: '14px 16px 18px', background: '#FFFFFF' }}>
-        <h1 style={{ margin: '0 0 6px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 20, color: '#0B1F4B', lineHeight: 1.25 }}>{current.name}</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <span style={{ color: '#FFB800', fontSize: 13, letterSpacing: '1px' }}>★★★★☆</span>
-          <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, color: '#7C89A8' }}>
-            {current.rating} ({current.reviews.toLocaleString('en-IN')} reviews)
-          </span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 14 }}>
-          <span style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 26, color: '#0B1F4B' }}>{inr(current.price)}</span>
-          <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 15, color: '#A6AEC2', textDecoration: 'line-through' }}>{inr(current.mrp)}</span>
-          <span style={{ background: '#E6483B', color: '#fff', fontFamily: 'Inter,sans-serif', fontWeight: 700, fontSize: 11, padding: '3px 8px', borderRadius: 5 }}>{pct}% OFF</span>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-          <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, fontWeight: 600, color: '#3A4560' }}>Qty</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#F1F4F9', borderRadius: 20, padding: '6px 12px' }}>
-            <button onClick={() => setQty((q) => Math.max(1, q - 1))} style={{ width: 22, height: 22, border: 'none', background: 'none', fontSize: 16, color: '#0B1F4B', cursor: 'pointer' }}>
-              −
-            </button>
-            <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 14, fontWeight: 700, minWidth: 16, textAlign: 'center' }}>{qty}</span>
-            <button onClick={() => setQty((q) => q + 1)} style={{ width: 22, height: 22, border: 'none', background: 'none', fontSize: 16, color: '#0B1F4B', cursor: 'pointer' }}>
-              +
-            </button>
+    <Shell active="shop" extraPadding={isDesktop ? 24 : 78}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', display: 'flex', flexWrap: 'wrap' }}>
+        {/* DEMO VIDEO + GALLERY */}
+        <div style={{ flex: '1 1 480px', minWidth: 300 }}>
+          <Placeholder style={{ width: '100%', aspectRatio: '16/9' }} label="DEMO VIDEO 16:9" dark>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </div>
+          </Placeholder>
+          <div style={{ display: 'flex', gap: 8, padding: '10px 14px', overflowX: 'auto' }}>
+            {[0, 1, 2, 3].map((i) => (
+              <div
+                key={i}
+                style={{
+                  flex: '0 0 56px',
+                  height: 56,
+                  borderRadius: 8,
+                  background: 'repeating-linear-gradient(135deg,#EAF1FF,#EAF1FF 6px,#F7F9FC 6px,#F7F9FC 12px)',
+                  border: `2px solid ${i === 0 ? '#1E6FE0' : 'transparent'}`,
+                }}
+              />
+            ))}
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 12 }}>
-          <button
-            onClick={handleAdd}
-            style={{ width: '100%', padding: 14, border: 'none', borderRadius: 10, background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)', color: '#fff', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}
-          >
-            Buy Now — COD Available
-          </button>
-          <a
-            href="https://wa.me/919999999999"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              width: '100%',
-              boxSizing: 'border-box',
-              padding: 13,
-              borderRadius: 10,
-              border: '1.5px solid #25D366',
-              color: '#128C4A',
-              fontFamily: 'Poppins,sans-serif',
-              fontWeight: 700,
-              fontSize: 14,
-              textAlign: 'center',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 7,
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366">
-              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"></path>
-            </svg>
-            Ask on WhatsApp
-          </a>
-        </div>
+        {/* BUY BOX */}
+        <div style={{ flex: '1 1 380px', minWidth: 300, padding: '14px 16px 18px', background: '#FFFFFF' }}>
+          <h1 style={{ margin: '0 0 6px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 20, color: '#0B1F4B', lineHeight: 1.25 }}>{current.name}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <span style={{ color: '#FFB800', fontSize: 13, letterSpacing: '1px' }}>★★★★☆</span>
+            <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, color: '#7C89A8' }}>
+              {current.rating} ({current.reviews.toLocaleString('en-IN')} reviews)
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 14 }}>
+            <span style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 26, color: '#0B1F4B' }}>{inr(current.price)}</span>
+            <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 15, color: '#A6AEC2', textDecoration: 'line-through' }}>{inr(current.mrp)}</span>
+            <span style={{ background: '#E6483B', color: '#fff', fontFamily: 'Inter,sans-serif', fontWeight: 700, fontSize: 11, padding: '3px 8px', borderRadius: 5 }}>{pct}% OFF</span>
+          </div>
 
-        <div style={{ display: 'flex', gap: 8 }}>
-          <input
-            placeholder="Enter pincode"
-            style={{ flex: 1, minWidth: 0, padding: '11px 12px', borderRadius: 9, border: '1px solid #E3E8F2', background: '#F7F9FC', fontFamily: 'Inter,sans-serif', fontSize: 13 }}
-          />
-          <button style={{ padding: '0 14px', border: '1px solid #1E6FE0', borderRadius: 9, background: '#FFFFFF', color: '#1E6FE0', fontFamily: 'Inter,sans-serif', fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>
-            Check
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+            <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, fontWeight: 600, color: '#3A4560' }}>Qty</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#F1F4F9', borderRadius: 20, padding: '6px 12px' }}>
+              <button onClick={() => setQty((q) => Math.max(1, q - 1))} style={{ width: 22, height: 22, border: 'none', background: 'none', fontSize: 16, color: '#0B1F4B', cursor: 'pointer' }}>
+                −
+              </button>
+              <span style={{ fontFamily: 'Inter,sans-serif', fontSize: 14, fontWeight: 700, minWidth: 16, textAlign: 'center' }}>{qty}</span>
+              <button onClick={() => setQty((q) => q + 1)} style={{ width: 22, height: 22, border: 'none', background: 'none', fontSize: 16, color: '#0B1F4B', cursor: 'pointer' }}>
+                +
+              </button>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 12 }}>
+            <button
+              onClick={handleAdd}
+              style={{ width: '100%', padding: 14, border: 'none', borderRadius: 10, background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)', color: '#fff', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}
+            >
+              Buy Now — COD Available
+            </button>
+            <a
+              href="https://wa.me/919999999999"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+                padding: 13,
+                borderRadius: 10,
+                border: '1.5px solid #25D366',
+                color: '#128C4A',
+                fontFamily: 'Poppins,sans-serif',
+                fontWeight: 700,
+                fontSize: 14,
+                textAlign: 'center',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 7,
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.39a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"></path>
+              </svg>
+              Ask on WhatsApp
+            </a>
+          </div>
+
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              placeholder="Enter pincode"
+              style={{ flex: 1, minWidth: 0, padding: '11px 12px', borderRadius: 9, border: '1px solid #E3E8F2', background: '#F7F9FC', fontFamily: 'Inter,sans-serif', fontSize: 13 }}
+            />
+            <button style={{ padding: '0 14px', border: '1px solid #1E6FE0', borderRadius: 9, background: '#FFFFFF', color: '#1E6FE0', fontFamily: 'Inter,sans-serif', fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>
+              Check
+            </button>
+          </div>
+          <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 11, color: '#8892A6', marginTop: 6 }}>Delivery date + COD eligibility ke liye pincode check karo</div>
         </div>
-        <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 11, color: '#8892A6', marginTop: 6 }}>Delivery date + COD eligibility ke liye pincode check karo</div>
       </div>
 
       {/* PROBLEM STRIP */}
-      <div style={{ padding: '20px 16px', background: '#EAF2FF' }}>
-        {PROBLEM_LINES.map((line, i) => (
-          <div key={i} style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 15, color: '#0B1F4B', marginBottom: 8, lineHeight: 1.4 }}>
-            {line}
-          </div>
-        ))}
+      <div style={{ padding: '20px clamp(16px,4vw,32px)', background: '#EAF2FF' }}>
+        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          {PROBLEM_LINES.map((line, i) => (
+            <div key={i} style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 15, color: '#0B1F4B', marginBottom: 8, lineHeight: 1.4 }}>
+              {line}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* HOW IT WORKS */}
-      <div style={{ padding: '22px 16px 6px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px clamp(16px,4vw,32px) 6px' }}>
         <h2 style={{ margin: '0 0 14px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B' }}>How It Works</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
           {STEPS.map((s) => (
             <div key={s.n} style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <div
@@ -195,7 +203,7 @@ export default function Product() {
       </div>
 
       {/* SPECS ACCORDION */}
-      <div style={{ padding: '22px 16px 6px' }}>
+      <div style={{ maxWidth: 760, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px clamp(16px,4vw,32px) 6px' }}>
         <h2 style={{ margin: '0 0 10px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B' }}>Specifications</h2>
         <div style={{ border: '1px solid #EBEFF6', borderRadius: 12, overflow: 'hidden' }}>
           {SPECS_DATA.map((spec, i) => {
@@ -219,9 +227,9 @@ export default function Product() {
       </div>
 
       {/* REVIEWS + Q&A */}
-      <div style={{ padding: '22px 0 6px' }}>
-        <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B', padding: '0 16px' }}>Photo Reviews</h2>
-        <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 16px 8px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px 0 6px' }}>
+        <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B', padding: '0 clamp(16px,4vw,32px)' }}>Photo Reviews</h2>
+        <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 clamp(16px,4vw,32px) 8px' }}>
           {REVIEWS.map((r, i) => (
             <div key={i} style={{ flex: '0 0 190px', background: '#FFFFFF', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 10px rgba(11,31,75,0.06)', border: '1px solid #EBEFF6' }}>
               <Placeholder style={{ width: '100%', aspectRatio: '4/3' }}>
@@ -235,7 +243,7 @@ export default function Product() {
             </div>
           ))}
         </div>
-        <div style={{ padding: '14px 16px 4px' }}>
+        <div style={{ padding: '14px clamp(16px,4vw,32px) 4px', maxWidth: 720 }}>
           <h3 style={{ margin: '0 0 10px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 15, color: '#0B1F4B' }}>Questions &amp; Answers</h3>
           {QAS.map((qa, i) => (
             <div key={i} style={{ marginBottom: 12 }}>
@@ -247,9 +255,9 @@ export default function Product() {
       </div>
 
       {/* CROSS-SELL */}
-      <div style={{ padding: '20px 0 6px' }}>
-        <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B', padding: '0 16px' }}>Goes Well With</h2>
-        <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 16px 8px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '20px 0 6px' }}>
+        <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 18, color: '#0B1F4B', padding: '0 clamp(16px,4vw,32px)' }}>Goes Well With</h2>
+        <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 clamp(16px,4vw,32px) 8px' }}>
           {crossSell.map((p) => (
             <Link
               key={p.id}
@@ -264,7 +272,7 @@ export default function Product() {
             </Link>
           ))}
         </div>
-        <div style={{ padding: '6px 16px 4px' }}>
+        <div style={{ padding: '6px clamp(16px,4vw,32px) 4px', maxWidth: 1280, margin: '0 auto', boxSizing: 'border-box' }}>
           <Link
             to="/bundles"
             style={{ textDecoration: 'none', display: 'flex', borderRadius: 14, padding: 14, background: '#EAF2FF', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}
@@ -275,21 +283,23 @@ export default function Product() {
         </div>
       </div>
 
-      {/* STICKY BUY BAR */}
-      <div style={{ position: 'fixed', left: 0, right: 0, bottom: 66, zIndex: 35, display: 'flex', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ width: '100%', maxWidth: 430, background: '#FFFFFF', borderTop: '1px solid #EBEFF6', boxShadow: '0 -4px 14px rgba(11,31,75,0.08)', display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', pointerEvents: 'auto' }}>
-          <div>
-            <div style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 16, color: '#0B1F4B' }}>{inr(current.price)}</div>
-            <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 10.5, color: '#A6AEC2', textDecoration: 'line-through' }}>{inr(current.mrp)}</div>
+      {/* STICKY BUY BAR (mobile only) */}
+      {!isDesktop && (
+        <div style={{ position: 'fixed', left: 0, right: 0, bottom: 66, zIndex: 35, display: 'flex', justifyContent: 'center', pointerEvents: 'none' }}>
+          <div style={{ width: '100%', maxWidth: 430, background: '#FFFFFF', borderTop: '1px solid #EBEFF6', boxShadow: '0 -4px 14px rgba(11,31,75,0.08)', display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', pointerEvents: 'auto' }}>
+            <div>
+              <div style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 16, color: '#0B1F4B' }}>{inr(current.price)}</div>
+              <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 10.5, color: '#A6AEC2', textDecoration: 'line-through' }}>{inr(current.mrp)}</div>
+            </div>
+            <button
+              onClick={handleAdd}
+              style={{ flex: 1, padding: 12, border: 'none', borderRadius: 10, background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)', color: '#fff', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 13.5, cursor: 'pointer' }}
+            >
+              Buy Now
+            </button>
           </div>
-          <button
-            onClick={handleAdd}
-            style={{ flex: 1, padding: 12, border: 'none', borderRadius: 10, background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)', color: '#fff', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 13.5, cursor: 'pointer' }}
-          >
-            Buy Now
-          </button>
         </div>
-      </div>
+      )}
     </Shell>
   );
 }

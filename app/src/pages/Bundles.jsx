@@ -16,12 +16,27 @@ export default function Bundles() {
 
   return (
     <Shell active="bundle">
-      <div style={{ padding: '20px 16px 18px', background: 'linear-gradient(135deg,#0B1F4B,#183E8C)' }}>
-        <h1 style={{ margin: '0 0 6px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 22, color: '#fff' }}>Bundle &amp; Save</h1>
-        <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, color: '#B9C8EA' }}>Do-teen kaam ke gadgets, ek saath sasta.</div>
+      <div style={{ padding: 'clamp(20px,3vw,36px) clamp(16px,4vw,32px) 18px', background: 'linear-gradient(135deg,#0B1F4B,#183E8C)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <h1 style={{ margin: '0 0 6px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 'clamp(22px,3vw,32px)', color: '#fff' }}>Bundle &amp; Save</h1>
+          <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, color: '#B9C8EA' }}>Do-teen kaam ke gadgets, ek saath sasta.</div>
+        </div>
       </div>
 
-      <div style={{ flex: 1, padding: '16px 14px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div
+        style={{
+          flex: 1,
+          maxWidth: 1280,
+          margin: '0 auto',
+          width: '100%',
+          boxSizing: 'border-box',
+          padding: '16px clamp(14px,4vw,32px) 24px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
+          gap: 16,
+          alignContent: 'start',
+        }}
+      >
         {bundles.map((b) => (
           <div key={b.id} style={{ background: '#FFFFFF', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(11,31,75,0.07)' }}>
             <div style={{ position: 'relative', display: 'flex', gap: 6, padding: '14px 14px 0' }}>

@@ -10,15 +10,17 @@ export default function Collection() {
 
   return (
     <Shell active="shop">
-      <div style={{ padding: '18px 16px 6px', background: '#0B1F4B' }}>
-        <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 11, fontWeight: 600, color: '#8FC1FF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
-          Collection
+      <div style={{ padding: 'clamp(18px,3vw,32px) clamp(16px,4vw,32px) 6px', background: '#0B1F4B' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 11, fontWeight: 600, color: '#8FC1FF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
+            Collection
+          </div>
+          <h1 style={{ margin: '0 0 4px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 'clamp(23px,3vw,34px)', color: '#fff' }}>{collection.name}</h1>
+          <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, color: '#B9C8EA', paddingBottom: 16 }}>{collection.tagline}</div>
         </div>
-        <h1 style={{ margin: '0 0 4px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 23, color: '#fff' }}>{collection.name}</h1>
-        <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, color: '#B9C8EA', paddingBottom: 16 }}>{collection.tagline}</div>
       </div>
 
-      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '12px 14px', background: '#FFFFFF', borderBottom: '1px solid #EBEFF6' }}>
+      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', padding: '12px clamp(14px,4vw,32px)', background: '#FFFFFF', borderBottom: '1px solid #EBEFF6', maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
         {COLLECTIONS.map((c) => {
           const active = c.id === cId;
           return (
@@ -43,9 +45,9 @@ export default function Collection() {
         })}
       </div>
 
-      <div style={{ flex: 1, padding: '16px 14px 24px' }}>
+      <div style={{ flex: 1, maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '16px clamp(14px,4vw,32px) 24px' }}>
         <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 12.5, color: '#7C89A8', marginBottom: 12 }}>{products.length} products</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))', gap: 16 }}>
           {products.map((p) => (
             <Link
               key={p.id}

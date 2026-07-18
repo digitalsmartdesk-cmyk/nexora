@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import useIsDesktop from '../hooks/useIsDesktop.js';
 
 function icon(name, active) {
   const c = active ? '#1E6FE0' : '#8892A6';
@@ -53,6 +54,9 @@ const TABS = [
 ];
 
 export default function BottomNav({ active = 'home' }) {
+  const isDesktop = useIsDesktop();
+  if (isDesktop) return null;
+
   return (
     <div
       style={{

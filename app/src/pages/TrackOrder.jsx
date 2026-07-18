@@ -15,7 +15,7 @@ export default function TrackOrder() {
 
   return (
     <Shell active="track">
-      <div style={{ padding: '20px 16px 4px' }}>
+      <div style={{ padding: 'clamp(20px,4vw,48px) 16px 4px', maxWidth: 560, margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
         <h1 style={{ margin: '0 0 4px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 21, color: '#0B1F4B' }}>Track Your Order</h1>
         <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 13, color: '#7C89A8', marginBottom: 18 }}>
           Order number ya phone number daalo — status turant milega.

@@ -90,7 +90,7 @@ export default function Homepage() {
           style={{
             position: 'relative',
             width: '100%',
-            aspectRatio: '4/5',
+            height: 'clamp(360px,58vw,620px)',
             background: 'repeating-linear-gradient(135deg,#0B1F4B,#0B1F4B 14px,#12285F 14px,#12285F 28px)',
             overflow: 'hidden',
           }}
@@ -117,7 +117,7 @@ export default function Homepage() {
               left: 0,
               right: 0,
               bottom: 0,
-              padding: '20px 18px 22px',
+              padding: 'clamp(20px,4vw,44px) clamp(18px,5vw,64px) clamp(22px,4vw,48px)',
               background: 'linear-gradient(0deg,rgba(11,31,75,0.95),rgba(11,31,75,0.55) 70%,rgba(11,31,75,0))',
             }}
           >
@@ -126,7 +126,7 @@ export default function Homepage() {
                 "iske baad jhaadu haath mein nahi liya"
               </span>
             </div>
-            <h1 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 27, lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
+            <h1 style={{ margin: '0 0 12px', maxWidth: 640, fontFamily: 'Poppins,sans-serif', fontWeight: 800, fontSize: 'clamp(27px,4vw,46px)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
               Gadgets you didn't know existed.
             </h1>
             <a
@@ -135,7 +135,7 @@ export default function Homepage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
-                padding: '12px 20px',
+                padding: '12px 22px',
                 borderRadius: 10,
                 background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)',
                 color: '#fff',
@@ -151,7 +151,17 @@ export default function Homepage() {
         </div>
 
         {/* TRUST STRIP */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6, padding: '16px 12px', background: '#FFFFFF' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4,1fr)',
+            gap: 'clamp(6px,2vw,28px)',
+            maxWidth: 900,
+            margin: '0 auto',
+            padding: '16px clamp(12px,4vw,24px)',
+            background: '#FFFFFF',
+          }}
+        >
           {TRUST_ITEMS.map((t) => (
             <div key={t.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textAlign: 'center' }}>
               <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#EAF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -163,21 +173,21 @@ export default function Homepage() {
         </div>
 
         {/* BESTSELLERS */}
-        <div id="bestsellers" style={{ padding: '22px 0 6px' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', padding: '0 14px 12px' }}>
+        <div id="bestsellers" style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px 0 6px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', padding: '0 clamp(14px,4vw,24px) 12px' }}>
             <h2 style={{ margin: 0, fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 19, color: '#0B1F4B' }}>Bestsellers</h2>
             <Link to="/shop" style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, fontWeight: 600, color: '#1E6FE0', textDecoration: 'none' }}>
               See all ▸
             </Link>
           </div>
-          <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 14px 8px', scrollSnapType: 'x mandatory' }}>
+          <div style={{ display: 'flex', gap: 14, overflowX: 'auto', padding: '0 clamp(14px,4vw,24px) 8px', scrollSnapType: 'x mandatory' }}>
             {bestsellers.map((p) => (
               <Link
                 key={p.id}
                 to={`/product/${p.id}`}
                 style={{
                   scrollSnapAlign: 'start',
-                  flex: '0 0 152px',
+                  flex: '0 0 clamp(152px,18vw,220px)',
                   textDecoration: 'none',
                   background: '#FFFFFF',
                   borderRadius: 14,
@@ -225,9 +235,9 @@ export default function Homepage() {
         </div>
 
         {/* SHOP BY PROBLEM */}
-        <div style={{ padding: '22px 14px 6px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px clamp(14px,4vw,24px) 6px' }}>
           <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 19, color: '#0B1F4B' }}>Shop by Problem</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 12 }}>
             {COLLECTIONS.map((c) => (
               <Link
                 key={c.id}
@@ -245,10 +255,10 @@ export default function Homepage() {
         </div>
 
         {/* UGC VIDEO WALL */}
-        <div style={{ padding: '22px 14px 6px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px clamp(14px,4vw,24px) 6px' }}>
           <h2 style={{ margin: '0 0 4px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 19, color: '#0B1F4B' }}>Real People, Real Reactions</h2>
           <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, color: '#7C89A8', marginBottom: 12 }}>Nexora fam on Reels &amp; Insta</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(110px,1fr))', gap: 8 }}>
             {UGC_TILES.map((views, i) => (
               <div
                 key={i}
@@ -275,7 +285,7 @@ export default function Homepage() {
         </div>
 
         {/* BUNDLE BANNER */}
-        <div style={{ padding: '22px 14px 6px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px clamp(14px,4vw,24px) 6px' }}>
           <Link
             to="/bundles"
             style={{ textDecoration: 'none', display: 'block', borderRadius: 16, overflow: 'hidden', background: 'linear-gradient(135deg,#0B1F4B,#183E8C)', position: 'relative' }}
@@ -320,9 +330,9 @@ export default function Homepage() {
         </div>
 
         {/* PHOTO REVIEWS */}
-        <div style={{ padding: '22px 0 6px' }}>
-          <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 19, color: '#0B1F4B', padding: '0 14px' }}>Photo Reviews</h2>
-          <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 14px 8px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', boxSizing: 'border-box', padding: '22px 0 6px' }}>
+          <h2 style={{ margin: '0 0 12px', fontFamily: 'Poppins,sans-serif', fontWeight: 700, fontSize: 19, color: '#0B1F4B', padding: '0 clamp(14px,4vw,24px)' }}>Photo Reviews</h2>
+          <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 clamp(14px,4vw,24px) 8px' }}>
             {REVIEWS.map((r, i) => (
               <div key={i} style={{ flex: '0 0 200px', background: '#FFFFFF', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 10px rgba(11,31,75,0.06)' }}>
                 <Placeholder style={{ width: '100%', aspectRatio: '4/3' }} label={null}>
@@ -342,50 +352,52 @@ export default function Homepage() {
       </div>
 
       {/* FOOTER */}
-      <div style={{ background: '#0B1F4B', padding: '26px 16px 20px', color: '#C6D2EE' }}>
-        <div style={{ marginBottom: 18 }}>
-          <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Check delivery at your pincode</div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <input
-              placeholder="Enter pincode"
-              style={{
-                flex: 1,
-                minWidth: 0,
-                padding: '11px 12px',
-                borderRadius: 9,
-                border: '1px solid rgba(255,255,255,0.18)',
-                background: 'rgba(255,255,255,0.06)',
-                color: '#fff',
-                fontFamily: 'Inter,sans-serif',
-                fontSize: 13,
-              }}
-            />
-            <button
-              style={{
-                padding: '0 16px',
-                border: 'none',
-                borderRadius: 9,
-                background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)',
-                color: '#fff',
-                fontFamily: 'Poppins,sans-serif',
-                fontWeight: 700,
-                fontSize: 13,
-                cursor: 'pointer',
-              }}
-            >
-              Check
-            </button>
+      <div style={{ background: '#0B1F4B', padding: 'clamp(26px,4vw,44px) clamp(16px,4vw,32px) 20px', color: '#C6D2EE' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 28, marginBottom: 18 }}>
+          <div style={{ flex: '1 1 220px', minWidth: 220 }}>
+            <div style={{ fontFamily: 'Inter,sans-serif', fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Check delivery at your pincode</div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input
+                placeholder="Enter pincode"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  padding: '11px 12px',
+                  borderRadius: 9,
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  fontFamily: 'Inter,sans-serif',
+                  fontSize: 13,
+                }}
+              />
+              <button
+                style={{
+                  padding: '0 16px',
+                  border: 'none',
+                  borderRadius: 9,
+                  background: 'linear-gradient(135deg,#1E6FE0,#38B6FF)',
+                  color: '#fff',
+                  fontFamily: 'Poppins,sans-serif',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: 'pointer',
+                }}
+              >
+                Check
+              </button>
+            </div>
+          </div>
+          <div style={{ flex: '2 1 320px', minWidth: 260, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: '10px 16px', fontFamily: 'Inter,sans-serif', fontSize: 13 }}>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Shipping Policy</a>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Replacement Policy</a>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>About Nexora</a>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Contact Us</a>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Terms of Service</a>
+            <a href="#" className="nexora-footer-link" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Privacy Policy</a>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px', fontFamily: 'Inter,sans-serif', fontSize: 13, marginBottom: 18 }}>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Shipping Policy</a>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Replacement Policy</a>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>About Nexora</a>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Contact Us</a>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Terms of Service</a>
-          <a href="#" style={{ color: '#C6D2EE', textDecoration: 'none' }}>Privacy Policy</a>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div
               style={{

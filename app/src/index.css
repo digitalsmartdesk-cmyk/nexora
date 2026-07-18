@@ -20,3 +20,21 @@ html, body {
 a, button {
   -webkit-tap-highlight-color: transparent;
 }
+
+@keyframes nexora-announce-fade {
+  0%, 100% { opacity: 0; transform: translateY(6px); }
+  4%, 28% { opacity: 1; transform: translateY(0); }
+  33% { opacity: 0; transform: translateY(6px); }
+}
+
+.nexora-nav-link:hover {
+  color: #1E6FE0 !important;
+}
+
+.nexora-whatsapp-btn:hover {
+  background: #EAFBF0 !important;
+}
+
+.nexora-footer-link:hover {
+  color: #fff !important;
+}
