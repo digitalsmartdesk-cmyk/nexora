@@ -9,7 +9,7 @@ import TrackOrder from './pages/TrackOrder.jsx';
 export default function App() {
   return (
     <StoreProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/nexora">
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/product/:id" element={<Product />} />

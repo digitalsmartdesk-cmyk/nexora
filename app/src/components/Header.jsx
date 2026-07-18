@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext.jsx';
+import logo from '../assets/nexora-logo.png';
 
 const LINES_EN = [
   'COD Available ✓ Free Shipping over ₹699',
@@ -59,7 +60,7 @@ export default function Header() {
               height: 36,
               borderRadius: '50%',
               overflow: 'hidden',
-              backgroundImage: "url('/assets/nexora-logo.png')",
+              backgroundImage: `url(${logo})`,
               backgroundSize: '420% 420%',
               backgroundPosition: '50% 14%',
               flexShrink: 0,

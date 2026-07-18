@@ -3,6 +3,7 @@ import Shell from '../components/Shell.jsx';
 import Placeholder from '../components/Placeholder.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { PRODUCTS, COLLECTIONS, discountPct, inr } from '../data/products.js';
+import logo from '../assets/nexora-logo.png';
 
 const BESTSELLER_IDS = ['robo-sweeper', 'massage-gun', 'tyre-inflator', 'aroma-diffuser'];
 
@@ -392,7 +393,7 @@ export default function Homepage() {
                 height: 26,
                 borderRadius: '50%',
                 overflow: 'hidden',
-                backgroundImage: "url('/assets/nexora-logo.png')",
+                backgroundImage: `url(${logo})`,
                 backgroundSize: '420% 420%',
                 backgroundPosition: '50% 14%',
               }}
